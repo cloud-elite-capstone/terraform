@@ -3,10 +3,10 @@
 ## Diagrams (Draft)
 
 ### System Context
-<img class="c4-image" alt="C4 System Context Diagram" src="https://assets.jmrecondo.com/systemcontext.png"/>
+<img class="c4-image" alt="C4 System Context Diagram" src="https://assets.jmrecondo.com/cloud-elite/systemcontext.png"/>
 
 ### Containers
-<img class="c4-image" alt="C4 Containers Diagram" src="https://assets.jmrecondo.com/containers.png"/>
+<img class="c4-image" alt="C4 Containers Diagram" src="https://assets.jmrecondo.com/cloud-elite/containers.png"/>
 
 ## Repository Structure
 
