@@ -1,0 +1,39 @@
+{
+  "name": "Cloud Elite Group 4",
+  "dockerFile": "Dockerfile",
+  "runArgs": [
+    "--memory=2g",
+    "--env-file",
+    "${localWorkspaceFolder}/.env"
+  ],
+  "mounts": [
+    "source=${localEnv:HOME}/.config/gcloud,target=/home/vscode/.config/gcloud,type=bind,consistency=cached"
+  ],
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "configureZshAsDefaultShell": true
+    },
+    "ghcr.io/devcontainers/features/terraform:1": {
+      "version": "latest"
+    },
+    "ghcr.io/joshuanianji/devcontainer-features/google-cloud-cli:1": {},
+    "ghcr.io/SrzStephen/devcontainer-features/just:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terraform.languageServer.enable": true,
+        "editor.formatOnSave": true
+      },
+      "extensions": [
+        "hashicorp.terraform",
+        "oderwat.indent-rainbow",
+        "nefrob.vscode-just-syntax",
+        "googlecloudtools.cloudcode",
+        "mhutchie.git-graph"
+      ]
+    }
+  },
+  "remoteUser": "vscode"
+}

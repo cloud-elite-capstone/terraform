@@ -1,0 +1,32 @@
+{
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "version": "2.5.9",
+      "resolved": "ghcr.io/devcontainers/features/common-utils@sha256:cb0c4d3c276f157eed17935747e364178d75fee17f55c4e129966f64633deb3a",
+      "integrity": "sha256:cb0c4d3c276f157eed17935747e364178d75fee17f55c4e129966f64633deb3a"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "1.1.0",
+      "resolved": "ghcr.io/devcontainers/features/github-cli@sha256:d22f50b70ed75339b4eed1ba9ecde3a1791f90e88d37936517e3bace0bbad671",
+      "integrity": "sha256:d22f50b70ed75339b4eed1ba9ecde3a1791f90e88d37936517e3bace0bbad671"
+    },
+    "ghcr.io/devcontainers/features/terraform:1": {
+      "version": "1.4.5",
+      "resolved": "ghcr.io/devcontainers/features/terraform@sha256:a286b8c7586de5de9bc8057a54fca53f8732896aef456326efe6e9dc8c36977d",
+      "integrity": "sha256:a286b8c7586de5de9bc8057a54fca53f8732896aef456326efe6e9dc8c36977d",
+      "dependsOn": [
+        "ghcr.io/devcontainers/features/github-cli:1"
+      ]
+    },
+    "ghcr.io/joshuanianji/devcontainer-features/google-cloud-cli:1": {
+      "version": "1.0.0",
+      "resolved": "ghcr.io/joshuanianji/devcontainer-features/google-cloud-cli@sha256:115b3b4a6c7948c660414a6f9aa601674aa1712e9616f7e436760daeeb4b95f2",
+      "integrity": "sha256:115b3b4a6c7948c660414a6f9aa601674aa1712e9616f7e436760daeeb4b95f2"
+    },
+    "ghcr.io/SrzStephen/devcontainer-features/just:1": {
+      "version": "1.0.1",
+      "resolved": "ghcr.io/srzstephen/devcontainer-features/just@sha256:74c3bd39fff7b2f788601d89e2ecaacfcc2ec297827707fe97c967df712516df",
+      "integrity": "sha256:74c3bd39fff7b2f788601d89e2ecaacfcc2ec297827707fe97c967df712516df"
+    }
+  }
+}
