@@ -6,6 +6,9 @@
   },
   "scripts": {
     "dev": "likec4 dev",
-    "build": "likec4 build"
+    "validate": "likec4 validate ./docs/likec4/dev && likec4 validate ./docs/likec4/prod",
+    "format": "likec4 format ./docs/likec4/dev && likec4 format ./docs/likec4/prod",
+    "build": "likec4 build -o ./dist",
+    "preview": "likec4 preview -o ./dist"
   }
 }
