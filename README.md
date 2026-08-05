@@ -58,10 +58,7 @@
 
 ### Configure Local Environment & Variables
 
-#### 1. Make .env
-```bash
-cp .env.example .env
-```
+#### 1. Open in devcontainer
 
 #### 2. Configure your path:
 In your `.env`, set your target environment directory:
