@@ -13,13 +13,13 @@ model {
 
 views {
   view systemContext {
-    title 'System Context - Retail Platform with Agentic AI'
+    title 'System Context'
 
     include *
     autoLayout LeftRight
   }
 
-  view containers of cloudRun {
+  view index of cloudRun {
     title 'Containers - GCP Cloud Run'
 
     include *

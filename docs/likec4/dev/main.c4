@@ -77,14 +77,14 @@ model {
 
 views {
   view systemContext {
-    title 'System Context - CI-CD Pipeline'
+    title 'System Context - Dev'
 
     include *
     autoLayout LeftRight
   }
 
-  view cicdPipeline {
-    title 'CI-CD Pipeline - Dev Environment'
+  view index {
+    title 'CI-CD Pipeline - Dev'
 
     include
       githubRepo,
