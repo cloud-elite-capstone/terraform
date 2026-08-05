@@ -1,0 +1,10 @@
+address
+iam
+cloud-run
+org-policy
+cloud-storage
+memorystore
+artifact-registry
+secret-manager
+sql-db
+github-actions-runners
