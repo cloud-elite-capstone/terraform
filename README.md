@@ -49,18 +49,42 @@
 
 ### Configure Local Environment & Variables
 
-#### 1. Open in devcontainer
+#### 1. Clone the repository
+```bash
+git clone https://github.com/cloud-elite-capstone/terraform.git
+cd terraform
+```
 
-#### 2. Configure your path:
-In your `.env`, set your target environment directory:
+#### 2. Open the project
+
+<details open>
+<summary>VS Code (Dev Container) — recommended</summary>
+
+1. Open the project folder in VS Code. Type `code .` in the terminal or open it manually.
+2. Install the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension.
+3. Click `Reopen in Container` when prompted, or run `Cmd+Shift+P` → `Dev Containers: Reopen in Container`.
+</details>
+
+<details>
+<summary>VS Code (manual setup)</summary>
+
+1. Open the project folder in VS Code. Type `code .` in the terminal or open it manually.
+2. Install prerequisites:
+   - [Terraform](https://developer.hashicorp.com/terraform/downloads) ≥ 1.15.0
+   - [gcloud CLI](https://cloud.google.com/sdk/docs/install)
+   - [Node.js](https://nodejs.org/) (for diagrams)
+</details>
+
+#### 3. Configure your path:
+In your `.env`, set your target environment directory, the default is dev:
 ```ini
 PROJECT_DIR=terraform/environments/dev
 ```
 
-#### 3. Populate Terraform variables:
+#### 4. Populate Terraform variables:
 Navigate to `terraform.tfvars` in the target environment and replace placeholders.
 
-#### 4. Authorize GCP & run:
+#### 5. Authorize GCP & run:
 ```bash
 just auth
 just init
