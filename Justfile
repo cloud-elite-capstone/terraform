@@ -47,6 +47,9 @@ destroy *flags:
 fmt:
     terraform fmt -recursive
 
+providers:
+    terraform -chdir={{project_dir}} providers
+
 tree:
     @echo "Project directory structure:"
     tree -a -I '.git|.terraform|keys' --dirsfirst .
