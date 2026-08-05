@@ -12,20 +12,46 @@
 
 ```bash
 .
-├── environments/
-│   ├── dev/                  # Development env config
-│   │   ├── backend.tf        # GCS remote state storage
-│   │   ├── main.tf           # Entrypoint
-│   │   ├── outputs.tf        # Environment outputs
-│   │   ├── providers.tf      # Provider version locking
-│   │   ├── terraform.tfvars  # Non-sensitive dev variables
-│   │   └── variables.tf      # Dev variable declarations
-│   └── prod/                 # Production env config
-├── modules/                  # Reusable templates  
-├── .env.example              # Env variable template
-├── .gitignore                
-└── Justfile                  # Command runner (think of package.json)
-
+├── .devcontainer/
+├── docs/
+│   ├── common/
+│   │   ├── models.c4
+│   │   └── specs.c4
+│   ├── dev/
+│   │   ├── likec4.config.json
+│   │   └── main.c4
+│   └── prod/
+│       ├── likec4.config.json
+│       └── main.c4
+├── terraform/
+│   ├── environments/
+│   │   └── dev/                  # Development env config
+│   │       ├── backend.tf        # GCS remote state storage
+│   │       ├── cicd.tf           # CI/CD (Cloud Build)
+│   │       ├── database.tf       # Database resources
+│   │       ├── frontend.tf       # Frontend resources
+│   │       ├── main.tf           # Entrypoint (commented modules)
+│   │       ├── network.tf        # Network/VPC resources
+│   │       ├── outputs.tf        # Environment outputs
+│   │       ├── providers.tf      # Provider version locking
+│   │       ├── servers.tf        # Server/VM resources
+│   │       ├── terraform.tfvars  # Non-sensitive dev variables
+│   │       └── variables.tf      # Dev variable declarations
+│   └── modules/                  # Reusable templates
+│       ├── gcp-cloud-build/      # Cloud Build CI/CD module
+│       │   ├── main.tf
+│       │   ├── outputs.tf
+│       │   └── variables.tf
+│       └── gcp-vm/               # GCP Compute Engine VM module
+│           ├── main.tf
+│           ├── outputs.tf
+│           └── variables.tf
+├── .env.example                  # Env variable template
+├── .gitignore
+├── Justfile                      # Command runner (think of package.json)
+├── LICENSE
+├── package.json
+└── README.md
 ```
 
 ## Onboarding
@@ -40,7 +66,7 @@ cp .env.example .env
 #### 2. Configure your path:
 In your `.env`, set your target environment directory:
 ```ini
-PROJECT_DIR="environments/dev"
+PROJECT_DIR="terraform/environments/dev"
 ```
 
 #### 3. Populate Terraform variables:

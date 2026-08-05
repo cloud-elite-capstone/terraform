@@ -3,7 +3,7 @@ set dotenv-load
 raw_creds := env("GOOGLE_APPLICATION_CREDENTIALS", "")
 export GOOGLE_APPLICATION_CREDENTIALS := if raw_creds == "" { "" } else { absolute_path(raw_creds) }
 
-project_dir := env("PROJECT_DIR", "environments/dev")
+project_dir := env("PROJECT_DIR", "terraform/environments/dev")
 
 default:
     @echo "Available commands:"
