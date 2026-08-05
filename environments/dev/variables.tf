@@ -1,4 +1,4 @@
-variable "gcp_project_id" {
+variable "project_id" {
   type = string
 }
 variable "gcp_service_account_email" {
@@ -7,5 +7,9 @@ variable "gcp_service_account_email" {
 }
 
 variable "region" {
+  type = string
+}
+
+variable "network_name" {
   type = string
 }
