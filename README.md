@@ -91,7 +91,9 @@ just init
 ```
 
 ## Diagrams
-To browse architecture diagrams, run `npm run dev` inside the devcontainer and it will auto-open the browser, or you can access [http://localhost:5173](http://localhost:5173)
+To browse architecture diagrams, you can access the deployed [Web UI](https://cloud-elite-capstone.github.io/terraform).
+
+For dev purposes, run `npm run dev` inside the devcontainer and it will auto-open the browser, or you can access [http://localhost:5173](http://localhost:5173)
 
 ## Justfile Reference
 
