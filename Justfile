@@ -59,3 +59,7 @@ tree-project *flags:
     @echo "Project directory structure for {{project_dir}}:"
     @echo
     tree --dirsfirst {{flags}} {{project_dir}}
+
+tree-clean *flags:
+    tree --dirsfirst -I '.git|.terraform|keys|node_modules|.devcontainer' {{flags}} . \
+    | tail -n +2 | sed 's/[├└]──/  /g; s/│/ /g'
