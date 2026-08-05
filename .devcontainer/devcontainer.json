@@ -2,7 +2,7 @@
   "name": "Cloud Elite Group 4",
   "dockerFile": "Dockerfile",
   "runArgs": [
-    "--memory=2g",
+    "--memory=2.5g",
     "--env-file",
     "${localWorkspaceFolder}/.env"
   ],
