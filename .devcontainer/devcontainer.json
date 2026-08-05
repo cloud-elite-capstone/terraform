@@ -30,7 +30,7 @@
         "hashicorp.terraform",
         "oderwat.indent-rainbow",
         "nefrob.vscode-just-syntax",
-        "googlecloudtools.cloudcode",
+        "mhutchie.git-graph",
         "likec4.likec4-vscode"
       ]
     }
