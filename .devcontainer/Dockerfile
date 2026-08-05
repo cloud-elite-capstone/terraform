@@ -1,4 +1,4 @@
-FROM debian:trixie
+FROM node:lts-trixie-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -7,14 +7,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     git \
     gnupg \
+    graphviz \
     jq \
     sudo \
     unzip \
     tree \
     zsh \
-    && useradd -m -s /bin/zsh vscode \
-    && echo "vscode ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/vscode \
-    && chmod 0440 /etc/sudoers.d/vscode \
     && rm -rf /var/lib/apt/lists/*
-
-USER vscode

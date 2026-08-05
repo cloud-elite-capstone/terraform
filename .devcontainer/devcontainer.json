@@ -7,7 +7,7 @@
     "${localWorkspaceFolder}/.env"
   ],
   "mounts": [
-    "source=${localEnv:HOME}/.config/gcloud,target=/home/vscode/.config/gcloud,type=bind,consistency=cached"
+    "source=${localEnv:HOME}/.config/gcloud,target=/home/node/.config/gcloud,type=bind,consistency=cached"
   ],
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {
@@ -31,9 +31,9 @@
         "oderwat.indent-rainbow",
         "nefrob.vscode-just-syntax",
         "googlecloudtools.cloudcode",
-        "mhutchie.git-graph"
+        "likec4.likec4-vscode"
       ]
     }
   },
-  "remoteUser": "vscode"
+  "remoteUser": "node"
 }

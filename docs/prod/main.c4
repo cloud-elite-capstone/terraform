@@ -1,0 +1,28 @@
+model {
+  customer = actor 'Customer' {
+    description 'A web user who interacts with the retail store via a browser.'
+  }
+
+  employee = actor 'Employee' {
+    description 'An internal staff member overseeing operations and AI agent actions.'
+  }
+
+  customer -> cloudRun.frontendApp 'Browses products, places orders, and chats with AI via HTTPS'
+  employee -> cloudRun.frontendApp 'Monitors agent workflows and store operations via HTTPS'
+}
+
+views {
+  view systemContext {
+    title 'System Context - Retail Platform with Agentic AI'
+
+    include *
+    autoLayout LeftRight
+  }
+
+  view containers of cloudRun {
+    title 'Containers - GCP Cloud Run'
+
+    include *
+    autoLayout LeftRight
+  }
+}

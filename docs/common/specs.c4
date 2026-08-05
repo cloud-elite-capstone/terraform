@@ -1,0 +1,67 @@
+specification {
+  color personColor #08427b
+  color gcpBlue #1A73E8
+  color reactGreen #33B074
+  color springGreen #6DB33F
+
+  element actor {
+    style {
+      shape person
+      color personColor
+    }
+  }
+
+  element developer {
+    style {
+      shape person
+      color personColor
+    }
+  }
+
+  element gcp-cloud-sql {
+    style {
+      shape cylinder
+      icon gcp:cloud-sql
+      color gcpBlue
+    }
+  }
+
+  element gcp-bucket {
+    style {
+      shape bucket
+      icon gcp:cloud-storage
+      color gcpBlue
+    }
+  }
+
+  element gcp-secret-manager {
+    style {
+      shape document
+      icon gcp:secret-manager
+      color gcpBlue
+    }
+  }
+
+  element gcp-cloud-run {
+    style {
+      icon gcp:cloud-run
+      color gcpBlue
+    }
+  }
+
+  element react-frontend {
+    style {
+      shape browser
+      icon tech:nextjs-icon
+      color reactGreen
+    }
+  }
+
+  element spring-boot-server {
+    style {
+      shape rectangle
+      icon tech:spring
+      color springGreen
+    }
+  }
+}

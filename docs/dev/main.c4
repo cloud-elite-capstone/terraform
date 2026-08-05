@@ -1,0 +1,109 @@
+specification {
+  color githubPurple #6E40C9
+
+  element github {
+    style {
+      shape rectangle
+      icon tech:github
+      color githubPurple
+    }
+  }
+
+  element gcp-cloud-build {
+    style {
+      shape rectangle
+      icon gcp:cloud-build
+      color gcpBlue
+    }
+  }
+
+  element gcp-artifact-registry {
+    style {
+      shape cylinder
+      icon gcp:artifact-registry
+      color gcpBlue
+    }
+  }
+}
+
+model {
+  githubRepo = github 'GitHub' {
+    description 'Source code repositories for all services and frontend.'
+  }
+
+  cloudBuild = gcp-cloud-build 'Cloud Build' {
+    description 'CI-CD pipeline — builds Docker images and pushes to Artifact Registry.'
+
+    triggerServerA = github 'Server A Trigger' {
+      style {
+        icon gcp:cloud-build
+        color gcpBlue
+      }
+    }
+    triggerServerB = github 'Server B Trigger' {
+      style {
+        icon gcp:cloud-build
+        color gcpBlue
+      }
+    }
+    triggerFrontend = github 'Frontend Trigger' {
+      style {
+        icon gcp:cloud-build
+        color gcpBlue
+      }
+    }
+  }
+
+  artifactRegistry = gcp-artifact-registry 'Artifact Registry' {
+    description 'Docker image registry — stores built container images for Cloud Run deployment.'
+
+    serverAImage = gcp-artifact-registry 'Server A Image' {}
+    serverBImage = gcp-artifact-registry 'Server B Image' {}
+    frontendImage = gcp-artifact-registry 'Frontend Image' {}
+  }
+
+  githubRepo -> triggerServerA 'Push triggers build via Cloud Build v2'
+  githubRepo -> triggerServerB 'Push triggers build via Cloud Build v2'
+  githubRepo -> triggerFrontend 'Push triggers build via Cloud Build v2'
+
+  triggerServerA -> serverAImage 'Pushes image to Artifact Registry'
+  triggerServerB -> serverBImage 'Pushes image to Artifact Registry'
+  triggerFrontend -> frontendImage 'Pushes image to Artifact Registry'
+
+  serverAImage -> cloudRun.serviceA 'Cloud Run deploys from Artifact Registry'
+  serverBImage -> cloudRun.serviceB 'Cloud Run deploys from Artifact Registry'
+  frontendImage -> cloudRun.frontendApp 'Cloud Run deploys from Artifact Registry'
+}
+
+views {
+  view systemContext {
+    title 'System Context - CI-CD Pipeline'
+
+    include *
+    autoLayout LeftRight
+  }
+
+  view cicdPipeline {
+    title 'CI-CD Pipeline - Dev Environment'
+
+    include
+      githubRepo,
+      cloudBuild,
+      triggerServerA,
+      triggerServerB,
+      triggerFrontend,
+      artifactRegistry,
+      serverAImage,
+      serverBImage,
+      frontendImage,
+      cloudRun.serviceA,
+      cloudRun.serviceB,
+      cloudRun.frontendApp
+
+    autoLayout LeftRight
+
+    style cloudRun.serviceA, cloudRun.serviceB, cloudRun.frontendApp {
+      opacity 40%
+    }
+  }
+}

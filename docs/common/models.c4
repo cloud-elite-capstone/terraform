@@ -1,0 +1,45 @@
+model {
+  cloudStorage = gcp-bucket 'GCP Cloud Storage' {
+    description 'Object storage bucket for media, documents, and AI artifacts.'
+  }
+
+  secretManager = gcp-secret-manager 'GCP Secret Manager' {
+    description 'Stores credentials, database passwords, and AI API keys.'
+  }
+
+  cloudSqlA = gcp-cloud-sql 'Core DB' {
+    description 'Relational database for orders, products, and user accounts.'
+  }
+
+  cloudSqlB = gcp-cloud-sql 'Agent DB' {
+    description 'Relational database for agent logs, workflows, memory, and task state.'
+  }
+
+  cloudRun = gcp-cloud-run 'GCP Cloud Run' {
+    description 'Microservices-based retail platform powered by Agentic AI.'
+
+    frontendApp = react-frontend 'Frontend Web App' {
+      description 'Serves user UI and handles SSR. React / Next.js.'
+    }
+
+    serviceA = spring-boot-server 'Server A - Core' {
+      description 'Manages products, orders, inventory, and checkout. Java / Spring Boot.'
+    }
+
+    serviceB = spring-boot-server 'Server B - AI Agent' {
+      description 'Autonomous AI agent executing tasks using tools/LLMs. Java / Spring Boot / LangChain4j.'
+    }
+
+    frontendApp -> serviceA 'Calls REST APIs for retail operations'
+    frontendApp -> serviceB 'Submits prompt requests & queries AI agent via REST/WebSocket'
+    serviceB -> serviceA 'Invokes domain tools/APIs on behalf of AI agent via REST'
+  }
+
+  serviceA -> cloudSqlA 'Reads/Writes transactional data via JDBC'
+  serviceA -> cloudStorage 'Uploads/Downloads product images & invoices'
+  serviceA -> secretManager 'Fetches DB credentials on startup'
+
+  serviceB -> cloudSqlB 'Stores agent execution logs, memory, and task history via JDBC'
+  serviceB -> cloudStorage 'Reads documents/knowledge bases for RAG and tool execution'
+  serviceB -> secretManager 'Fetches LLM API keys and DB credentials on startup'
+}

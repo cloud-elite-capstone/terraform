@@ -1,0 +1,11 @@
+{
+  "name": "cloud-elite-group-4",
+  "private": true,
+  "devDependencies": {
+    "likec4": "latest"
+  },
+  "scripts": {
+    "dev": "likec4 dev",
+    "build": "likec4 build"
+  }
+}
