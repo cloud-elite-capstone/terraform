@@ -1,8 +1,5 @@
 # Terraform and Docs
 
-## Diagrams
-To browse architecture diagrams, run `npm run dev` inside the devcontainer and it will auto-open the browser, or you can access [http://localhost:5173](http://localhost:5173)
-
 ## Repository Structure
 
 ```bash
@@ -57,7 +54,7 @@ To browse architecture diagrams, run `npm run dev` inside the devcontainer and i
 #### 2. Configure your path:
 In your `.env`, set your target environment directory:
 ```ini
-PROJECT_DIR="terraform/environments/dev"
+PROJECT_DIR=terraform/environments/dev
 ```
 
 #### 3. Populate Terraform variables:
@@ -68,6 +65,9 @@ Navigate to `terraform.tfvars` in the target environment and replace placeholder
 just auth
 just init
 ```
+
+## Diagrams
+To browse architecture diagrams, run `npm run dev` inside the devcontainer and it will auto-open the browser, or you can access [http://localhost:5173](http://localhost:5173)
 
 ## Justfile Reference
 
