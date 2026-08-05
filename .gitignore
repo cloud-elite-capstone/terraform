@@ -55,7 +55,7 @@ Thumbs.db
 **/*secret.tfvars
 **/*local.tfvars
 
-# Allow standard terraform.tfvars
-!**/terraform.tfvars
+# Allow terraform.example.tfvars
+!**/*.example.tfvars
 
 **/node_modules/

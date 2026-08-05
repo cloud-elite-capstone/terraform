@@ -1,14 +1,7 @@
 module "spring_boot_servers" {
   source = "GoogleCloudPlatform/cloud-run/google"
 
-  for_each = {
-    "server1" = {
-      image = "<placeholder>"
-    },
-    "server2" = {
-      image = "<placeholder>"
-    }
-  }
+  for_each = var.server_images
 
   location   = var.region
   project_id = var.project_id

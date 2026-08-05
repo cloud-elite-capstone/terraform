@@ -13,3 +13,27 @@ variable "region" {
 variable "network_name" {
   type = string
 }
+
+variable "frontend_image" {
+  type = string
+}
+
+variable "server_images" {
+  type = map(string)
+}
+
+variable "app_installation_id" {
+  type = number
+}
+
+variable "github_pat_secret_id" {
+  type = string
+}
+
+variable "artifact_registry_repository_id" {
+  type = string
+}
+
+variable "github_repositories" {
+  type = map(object({ remote_uri = string }))
+}

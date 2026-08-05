@@ -4,7 +4,7 @@ module "react_frontend" {
   location   = var.region
   project_id = var.project_id
 
-  image        = "<placeholder>"
+  image        = var.frontend_image
   service_name = "react-frontend"
 }
 
