@@ -21,11 +21,7 @@
 │   │   ├── terraform.tfvars  # Non-sensitive dev variables
 │   │   └── variables.tf      # Dev variable declarations
 │   └── prod/                 # Production env config
-├── modules/                  # Reusable templates
-│   └── gcp-vm/
-│       ├── main.tf           
-│       ├── outputs.tf        
-│       └── variables.tf      
+├── modules/                  # Reusable templates  
 ├── .env.example              # Env variable template
 ├── .gitignore                
 └── Justfile                  # Command runner (think of package.json)
