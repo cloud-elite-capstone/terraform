@@ -58,3 +58,5 @@ keys/**
 
 # Allow standard terraform.tfvars
 !**/terraform.tfvars
+
+**/node_modules
