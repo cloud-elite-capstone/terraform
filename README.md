@@ -84,6 +84,27 @@ just init
 
 Run commands using `just <target>`. Trailing arguments (e.g., `-upgrade`) are forwarded automatically to the underlying Terraform process.
 
+### GCP
+| Command | Description |
+|---------|-------------|
+| `just auth` | Log in to GCP via `gcloud auth application-default login` |
+
+### Terraform
+| Command | Description |
+|---------|-------------|
+| `just init [flags]` | Initialize Terraform in the target environment |
+| `just plan [flags]` | Preview infrastructure changes |
+| `just apply [flags]` | Apply changes (with `-auto-approve`) |
+| `just destroy [flags]` | Destroy all infrastructure |
+| `just fmt [flags]` | Format all Terraform files recursively |
+| `just providers [flags]` | Show provider information for the target environment |
+
+### Project
+| Command | Description |
+|---------|-------------|
+| `just tree [flags]` | Show full project directory tree (excludes `.git`, `.terraform`, `keys`, `node_modules`) |
+| `just tree-project [flags]` | Show directory tree for the target environment only |
+
 <style>
 .c4-image {
     width: 100%;

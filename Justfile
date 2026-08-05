@@ -44,16 +44,18 @@ destroy *flags:
     @echo "WARNING: Destroying GCP resources!"
     terraform -chdir={{project_dir}} destroy {{flags}}
 
-fmt:
-    terraform fmt -recursive
+fmt *flags:
+    terraform fmt -recursive {{flags}}
 
-providers:
-    terraform -chdir={{project_dir}} providers
+providers *flags:
+    terraform -chdir={{project_dir}} {{flags}} providers
 
-tree:
+tree *flags:
     @echo "Project directory structure:"
-    tree -a -I '.git|.terraform|keys' --dirsfirst .
+    @echo
+    tree -a -I '.git|.terraform|keys|node_modules' --dirsfirst {{flags}} .
 
-tree-project:
+tree-project *flags:
     @echo "Project directory structure for {{project_dir}}:"
-    tree --dirsfirst {{project_dir}}
+    @echo
+    tree --dirsfirst {{flags}} {{project_dir}}
