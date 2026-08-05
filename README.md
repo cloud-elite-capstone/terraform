@@ -102,7 +102,7 @@ Run commands using `just <target>`. Trailing arguments (e.g., `-upgrade`) are fo
 | `just tree [flags]` | Show full project directory tree (excludes `.git`, `.terraform`, `keys`, `node_modules`) |
 | `just tree-project [flags]` | Show directory tree for the target environment only |
 
-<style>
+<!-- <style>
 .c4-image {
     width: 100%;
     max-width: 800px;
@@ -112,4 +112,4 @@ Run commands using `just <target>`. Trailing arguments (e.g., `-upgrade`) are fo
     display: block;
     margin: 0 auto;
 }
-</style>
+</style> -->
