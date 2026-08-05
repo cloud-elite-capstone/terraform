@@ -1,11 +1,9 @@
 set dotenv-load
 
-root_dir := env_var_or_default("PWD", `pwd`)
-
-raw_creds := env_var_or_default("GOOGLE_APPLICATION_CREDENTIALS", "")
+raw_creds := env("GOOGLE_APPLICATION_CREDENTIALS", "")
 export GOOGLE_APPLICATION_CREDENTIALS := if raw_creds == "" { "" } else { absolute_path(raw_creds) }
 
-project_dir := env_var_or_default("PROJECT_DIR", "environments/dev")
+project_dir := env("PROJECT_DIR", "environments/dev")
 
 default:
     @echo "Available commands:"
