@@ -1,57 +1,51 @@
-# Terraform
+# Terraform and Docs
 
-## Diagrams (Draft)
-
-### System Context
-<img class="c4-image" alt="C4 System Context Diagram" src="https://assets.jmrecondo.com/cloud-elite/systemcontext.png"/>
-
-### Containers
-<img class="c4-image" alt="C4 Containers Diagram" src="https://assets.jmrecondo.com/cloud-elite/containers.png"/>
+## Diagrams
+To browse architecture diagrams, run `npm run dev` inside the devcontainer and it will auto-open the browser, or you can access [http://localhost:5173](http://localhost:5173)
 
 ## Repository Structure
 
 ```bash
 .
-├── .devcontainer/
-├── docs/
-│   ├── common/
-│   │   ├── models.c4
-│   │   └── specs.c4
-│   ├── dev/
-│   │   ├── likec4.config.json
-│   │   └── main.c4
-│   └── prod/
-│       ├── likec4.config.json
-│       └── main.c4
-├── terraform/
-│   ├── environments/
-│   │   └── dev/                  # Development env config
-│   │       ├── backend.tf        # GCS remote state storage
-│   │       ├── cicd.tf           # CI/CD (Cloud Build)
-│   │       ├── database.tf       # Database resources
-│   │       ├── frontend.tf       # Frontend resources
-│   │       ├── main.tf           # Entrypoint (commented modules)
-│   │       ├── network.tf        # Network/VPC resources
-│   │       ├── outputs.tf        # Environment outputs
-│   │       ├── providers.tf      # Provider version locking
-│   │       ├── servers.tf        # Server/VM resources
-│   │       ├── terraform.tfvars  # Non-sensitive dev variables
-│   │       └── variables.tf      # Dev variable declarations
-│   └── modules/                  # Reusable templates
-│       ├── gcp-cloud-build/      # Cloud Build CI/CD module
+├── docs
+│   ├── likec4
+│   │   ├── common
+│   │   │   ├── models.c4
+│   │   │   └── specs.c4
+│   │   ├── dev
+│   │   │   ├── likec4.config.json
+│   │   │   └── main.c4
+│   │   └── prod
+│   │       ├── likec4.config.json
+│   │       └── main.c4
+│   └── structurizr
+│       └── c4.dsl
+├── terraform                       # Terraform-related files
+│   ├── environments                # Deployment envs (dev or prod)
+│   │   └── dev
+│   │       ├── backend.tf          # Terraform state
+│   │       ├── cicd.tf
+│   │       ├── database.tf
+│   │       ├── frontend.tf
+│   │       ├── main.tf
+│   │       ├── network.tf
+│   │       ├── outputs.tf
+│   │       ├── providers.tf
+│   │       ├── servers.tf
+│   │       ├── terraform.tfvars    # Env-specific config
+│   │       └── variables.tf
+│   └── modules                     # Custom modules
+│       ├── gcp-cloud-build
 │       │   ├── main.tf
 │       │   ├── outputs.tf
 │       │   └── variables.tf
-│       └── gcp-vm/               # GCP Compute Engine VM module
-│           ├── main.tf
-│           ├── outputs.tf
-│           └── variables.tf
-├── .env.example                  # Env variable template
-├── .gitignore
-├── Justfile                      # Command runner (think of package.json)
+│       └── ...
+├── Justfile                        # Convenience scripts
 ├── LICENSE
+├── README.md
+├── package-lock.json
 ├── package.json
-└── README.md
+└── resources                       # relevant GCP resources
 ```
 
 ## Onboarding
@@ -74,8 +68,6 @@ Navigate to `terraform.tfvars` in the target environment and replace placeholder
 just auth
 just init
 ```
-
----
 
 ## Justfile Reference
 
