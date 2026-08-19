@@ -13,13 +13,23 @@ github_pat_secret_id = "github-pat"
 
 artifact_registry_repository_id = "dev-repo"
 github_repositories = {
-  server-a = {
-    remote_uri = "https://github.com/your-org/server-a.git"
-  }
-  server-b = {
-    remote_uri = "https://github.com/your-org/server-b.git"
-  }
-  react-frontend = {
-    remote_uri = "https://github.com/your-org/react-frontend.git"
+  monorepo = {
+    remote_uri = "https://github.com/your-org/monorepo.git"
+    branch     = "^main$"
+
+    builds = {
+      server-a = {
+        filename       = "server-a/cloudbuild.yaml"
+        included_files = ["server-a/**"]
+      }
+      server-b = {
+        filename       = "server-b/cloudbuild.yaml"
+        included_files = ["server-b/**"]
+      }
+      react-frontend = {
+        filename       = "frontend/cloudbuild.yaml"
+        included_files = ["frontend/**"]
+      }
+    }
   }
 }

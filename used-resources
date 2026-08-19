@@ -1,0 +1,7 @@
+cloud-build
+secret-manager
+artifact-registry
+cloud-run
+cloud-storage
+vpc
+cloud-sql

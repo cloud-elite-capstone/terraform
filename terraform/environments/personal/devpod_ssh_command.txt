@@ -1,0 +1,2 @@
+devpod_vm_public_ip = "136.85.65.249"
+devpod_vm_ssh_command = "ssh devpod@136.85.65.249"
