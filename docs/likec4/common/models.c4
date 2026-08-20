@@ -1,45 +1,80 @@
 model {
   cloudStorage = gcp-bucket 'GCP Cloud Storage' {
-    description 'Object storage bucket for media, documents, and AI artifacts.'
+    description 'Object storage bucket - Terraform state backend.'
   }
 
   secretManager = gcp-secret-manager 'GCP Secret Manager' {
-    description 'Stores credentials, database passwords, and AI API keys.'
+    description 'Stores the Gemini API key and the GitHub PAT used by CI/CD.'
   }
 
-  cloudSqlA = gcp-cloud-sql 'Core DB' {
-    description 'Relational database for orders, products, and user accounts.'
+  cloudSql = gcp-cloud-sql 'Cloud SQL - PostgreSQL 18' {
+    description 'Shared relational database (db) for users, shops, products, orders, and AI conversations.'
   }
 
-  cloudSqlB = gcp-cloud-sql 'Agent DB' {
-    description 'Relational database for agent logs, workflows, memory, and task state.'
+  geminiApi = external-api 'Google Gemini (Vertex AI)' {
+    description 'LLM behind the AI agent (gemini-2.0-flash) via Spring AI Google GenAI.'
+  }
+
+  serpApi = external-api 'SerpApi Web Search' {
+    description 'Third-party web search used for product discovery.'
+  }
+
+  geocoder = external-api 'OpenStreetMap Nominatim' {
+    description 'Geocoding service that turns location text into coordinates.'
   }
 
   cloudRun = gcp-cloud-run 'GCP Cloud Run' {
-    description 'Microservices-based retail platform powered by Agentic AI.'
+    description 'Microservices-based retail platform (Cartesian) powered by an AI shopping agent.'
 
     frontendApp = react-frontend 'Frontend Web App' {
-      description 'Serves user UI and handles SSR. React / Next.js.'
+      description 'Storefront UI with server-side rendering. React 19 / Next.js 16. Port 3000.'
     }
 
-    serviceA = spring-boot-server 'Server A - Core' {
-      description 'Manages products, orders, inventory, and checkout. Java / Spring Boot.'
+    userService = spring-boot-server 'user-service' {
+      description 'Manages buyers and sellers. Java 17 / Spring Boot. Port 8081.'
     }
 
-    serviceB = spring-boot-server 'Server B - AI Agent' {
-      description 'Autonomous AI agent executing tasks using tools/LLMs. Java / Spring Boot / LangChain4j.'
+    shopService = spring-boot-server 'shop-service' {
+      description 'Manages physical shops and their geolocations. Port 8082.'
     }
 
-    frontendApp -> serviceA 'Calls REST APIs for retail operations'
-    frontendApp -> serviceB 'Submits prompt requests & queries AI agent via REST/WebSocket'
-    serviceB -> serviceA 'Invokes domain tools/APIs on behalf of AI agent via REST'
+    productService = spring-boot-server 'product-service' {
+      description 'Manages the product catalog and categories with spatial search. Port 8083.'
+    }
+
+    orderService = spring-boot-server 'order-service' {
+      description 'Manages orders, payments, refunds, and transactions. Port 8084.'
+    }
+
+    agentService = spring-boot-server 'agent-service' {
+      description 'AI agent intelligence and recommendations via Spring AI + Gemini. Port 8085.'
+    }
+
+    orchestratorService = spring-boot-server 'agent-orchestrator-service' {
+      description 'Orchestrates AI conversations and product search. Port 8086.'
+    }
+
+    frontendApp -> userService 'REST - auth and profiles'
+    frontendApp -> shopService 'REST - store locator'
+    frontendApp -> productService 'REST - catalog and search'
+    frontendApp -> orderService 'REST - orders and checkout'
+    frontendApp -> agentService 'REST - recommendations'
+    frontendApp -> orchestratorService 'REST - AI chat and product search'
+
+    orchestratorService -> agentService 'REST - /agent/* chat and recommendations'
+    orchestratorService -> productService 'REST - /products/* search'
+    agentService -> productService 'REST - product search tools'
   }
 
-  serviceA -> cloudSqlA 'Reads/Writes transactional data via JDBC'
-  serviceA -> cloudStorage 'Uploads/Downloads product images & invoices'
-  serviceA -> secretManager 'Fetches DB credentials on startup'
+  userService -> cloudSql 'Reads/writes users via JPA'
+  shopService -> cloudSql 'Reads/writes shops via JPA'
+  productService -> cloudSql 'Reads/writes products and categories via JPA'
+  orderService -> cloudSql 'Reads/writes orders and payments via JPA'
+  agentService -> cloudSql 'Stores conversation history via JPA'
 
-  serviceB -> cloudSqlB 'Stores agent execution logs, memory, and task history via JDBC'
-  serviceB -> cloudStorage 'Reads documents/knowledge bases for RAG and tool execution'
-  serviceB -> secretManager 'Fetches LLM API keys and DB credentials on startup'
+  agentService -> secretManager 'Fetches GEMINI_API_KEY on startup'
+
+  agentService -> geminiApi 'Calls the LLM via Spring AI Google GenAI'
+  orchestratorService -> serpApi 'Web search for product discovery'
+  orchestratorService -> geocoder 'Geocodes location queries'
 }

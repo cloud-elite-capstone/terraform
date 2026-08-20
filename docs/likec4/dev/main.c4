@@ -27,26 +27,54 @@ specification {
 }
 
 model {
-  githubRepo = github 'GitHub' {
-    description 'Source code repositories for all services and frontend.'
+  frontendRepo = github 'frontend repo' {
+    description 'Next.js storefront source on GitHub.'
+  }
+
+  microservicesRepo = github 'microservices repo' {
+    description 'Monorepo containing the six Spring Boot services.'
   }
 
   cloudBuild = gcp-cloud-build 'Cloud Build' {
     description 'CI-CD pipeline — builds Docker images and pushes to Artifact Registry.'
 
-    triggerServerA = github 'Server A Trigger' {
+    triggerFrontend = github 'frontend trigger' {
       style {
         icon gcp:cloud-build
         color gcpBlue
       }
     }
-    triggerServerB = github 'Server B Trigger' {
+    triggerUserService = github 'user-service trigger' {
       style {
         icon gcp:cloud-build
         color gcpBlue
       }
     }
-    triggerFrontend = github 'Frontend Trigger' {
+    triggerShopService = github 'shop-service trigger' {
+      style {
+        icon gcp:cloud-build
+        color gcpBlue
+      }
+    }
+    triggerProductService = github 'product-service trigger' {
+      style {
+        icon gcp:cloud-build
+        color gcpBlue
+      }
+    }
+    triggerOrderService = github 'order-service trigger' {
+      style {
+        icon gcp:cloud-build
+        color gcpBlue
+      }
+    }
+    triggerAgentService = github 'agent-service trigger' {
+      style {
+        icon gcp:cloud-build
+        color gcpBlue
+      }
+    }
+    triggerOrchestratorService = github 'agent-orchestrator-service trigger' {
       style {
         icon gcp:cloud-build
         color gcpBlue
@@ -54,25 +82,41 @@ model {
     }
   }
 
-  artifactRegistry = gcp-artifact-registry 'Artifact Registry' {
+  artifactRegistry = gcp-artifact-registry 'Artifact Registry (dev-repo)' {
     description 'Docker image registry — stores built container images for Cloud Run deployment.'
 
-    serverAImage = gcp-artifact-registry 'Server A Image' {}
-    serverBImage = gcp-artifact-registry 'Server B Image' {}
-    frontendImage = gcp-artifact-registry 'Frontend Image' {}
+    frontendImage = gcp-artifact-registry 'frontend image' {}
+    userServiceImage = gcp-artifact-registry 'user-service image' {}
+    shopServiceImage = gcp-artifact-registry 'shop-service image' {}
+    productServiceImage = gcp-artifact-registry 'product-service image' {}
+    orderServiceImage = gcp-artifact-registry 'order-service image' {}
+    agentServiceImage = gcp-artifact-registry 'agent-service image' {}
+    orchestratorServiceImage = gcp-artifact-registry 'agent-orchestrator-service image' {}
   }
 
-  githubRepo -> triggerServerA 'Push triggers build via Cloud Build v2'
-  githubRepo -> triggerServerB 'Push triggers build via Cloud Build v2'
-  githubRepo -> triggerFrontend 'Push triggers build via Cloud Build v2'
+  frontendRepo -> triggerFrontend 'Push triggers build via Cloud Build'
+  microservicesRepo -> triggerUserService 'Push (user-service/**) triggers build'
+  microservicesRepo -> triggerShopService 'Push (shop-service/**) triggers build'
+  microservicesRepo -> triggerProductService 'Push (product-service/**) triggers build'
+  microservicesRepo -> triggerOrderService 'Push (order-service/**) triggers build'
+  microservicesRepo -> triggerAgentService 'Push (agent-service/**) triggers build'
+  microservicesRepo -> triggerOrchestratorService 'Push (agent-orchestrator-service/**) triggers build'
 
-  triggerServerA -> serverAImage 'Pushes image to Artifact Registry'
-  triggerServerB -> serverBImage 'Pushes image to Artifact Registry'
   triggerFrontend -> frontendImage 'Pushes image to Artifact Registry'
+  triggerUserService -> userServiceImage 'Pushes image to Artifact Registry'
+  triggerShopService -> shopServiceImage 'Pushes image to Artifact Registry'
+  triggerProductService -> productServiceImage 'Pushes image to Artifact Registry'
+  triggerOrderService -> orderServiceImage 'Pushes image to Artifact Registry'
+  triggerAgentService -> agentServiceImage 'Pushes image to Artifact Registry'
+  triggerOrchestratorService -> orchestratorServiceImage 'Pushes image to Artifact Registry'
 
-  serverAImage -> cloudRun.serviceA 'Cloud Run deploys from Artifact Registry'
-  serverBImage -> cloudRun.serviceB 'Cloud Run deploys from Artifact Registry'
   frontendImage -> cloudRun.frontendApp 'Cloud Run deploys from Artifact Registry'
+  userServiceImage -> cloudRun.userService 'Cloud Run deploys from Artifact Registry'
+  shopServiceImage -> cloudRun.shopService 'Cloud Run deploys from Artifact Registry'
+  productServiceImage -> cloudRun.productService 'Cloud Run deploys from Artifact Registry'
+  orderServiceImage -> cloudRun.orderService 'Cloud Run deploys from Artifact Registry'
+  agentServiceImage -> cloudRun.agentService 'Cloud Run deploys from Artifact Registry'
+  orchestratorServiceImage -> cloudRun.orchestratorService 'Cloud Run deploys from Artifact Registry'
 }
 
 views {
@@ -87,22 +131,35 @@ views {
     title 'CI-CD Pipeline - Dev'
 
     include
-      githubRepo,
+      frontendRepo,
+      microservicesRepo,
       cloudBuild,
-      triggerServerA,
-      triggerServerB,
       triggerFrontend,
+      triggerUserService,
+      triggerShopService,
+      triggerProductService,
+      triggerOrderService,
+      triggerAgentService,
+      triggerOrchestratorService,
       artifactRegistry,
-      serverAImage,
-      serverBImage,
       frontendImage,
-      cloudRun.serviceA,
-      cloudRun.serviceB,
-      cloudRun.frontendApp
+      userServiceImage,
+      shopServiceImage,
+      productServiceImage,
+      orderServiceImage,
+      agentServiceImage,
+      orchestratorServiceImage,
+      cloudRun.frontendApp,
+      cloudRun.userService,
+      cloudRun.shopService,
+      cloudRun.productService,
+      cloudRun.orderService,
+      cloudRun.agentService,
+      cloudRun.orchestratorService
 
     autoLayout LeftRight
 
-    style cloudRun.serviceA, cloudRun.serviceB, cloudRun.frontendApp {
+    style cloudRun.frontendApp, cloudRun.userService, cloudRun.shopService, cloudRun.productService, cloudRun.orderService, cloudRun.agentService, cloudRun.orchestratorService {
       opacity 40%
     }
   }
