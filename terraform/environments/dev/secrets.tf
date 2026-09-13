@@ -9,3 +9,23 @@ resource "google_secret_manager_secret_iam_member" "gemini_api_key_cloudrun_acce
   role      = "roles/secretmanager.secretAccessor"
   member    = local.service_account_members.compute_default
 }
+
+# Database password shared by all backend services, generated in database.tf.
+resource "google_secret_manager_secret" "db_password" {
+  secret_id = "db-password"
+
+  replication {
+    auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "db_password" {
+  secret      = google_secret_manager_secret.db_password.id
+  secret_data = random_password.db_password.result
+}
+
+resource "google_secret_manager_secret_iam_member" "db_password_cloudrun_accessor" {
+  secret_id = google_secret_manager_secret.db_password.id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = local.service_account_members.compute_default
+}
