@@ -14,3 +14,8 @@ output "repository_ids" {
   }
   description = "Map of repository short names to their fully-qualified IDs"
 }
+
+output "cloudbuild_sa_email" {
+  value       = google_service_account.cloudbuild_sa.email
+  description = "Email of the Cloud Build runner service account"
+}

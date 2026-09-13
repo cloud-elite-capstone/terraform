@@ -1,8 +1,6 @@
-data "google_compute_default_service_account" "default" {}
-
 locals {
   default_invoker = [
-    "serviceAccount:${data.google_compute_default_service_account.default.email}",
+    local.service_account_members.compute_default,
   ]
 
   # Services with no outbound calls to other services

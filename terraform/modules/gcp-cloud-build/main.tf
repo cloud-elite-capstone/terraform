@@ -2,6 +2,10 @@ data "google_project" "current" {
   project_id = var.project_id
 }
 
+locals {
+  cloudbuild_service_agent = "service-${data.google_project.current.number}@gcp-sa-cloudbuild.iam.gserviceaccount.com"
+}
+
 resource "google_service_account" "cloudbuild_sa" {
   account_id   = "cloudbuild-runner"
   display_name = "Cloud Build Runner Service Account"
@@ -23,7 +27,7 @@ resource "google_secret_manager_secret_iam_member" "pat_accessor" {
 resource "google_service_account_iam_member" "cloudbuild_agent_user" {
   service_account_id = google_service_account.cloudbuild_sa.name
   role               = "roles/iam.serviceAccountUser"
-  member             = "serviceAccount:service-${data.google_project.current.number}@gcp-sa-cloudbuild.iam.gserviceaccount.com"
+  member             = "serviceAccount:${local.cloudbuild_service_agent}"
 }
 
 resource "google_cloudbuildv2_connection" "github" {

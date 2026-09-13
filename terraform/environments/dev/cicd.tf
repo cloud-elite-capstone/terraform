@@ -13,7 +13,7 @@ resource "google_artifact_registry_repository_iam_member" "cloudbuild_writer" {
   location   = var.region
   repository = var.artifact_registry_repository_id
   role       = "roles/artifactregistry.writer"
-  member     = "serviceAccount:service-${data.google_project.current.number}@gcp-sa-cloudbuild.iam.gserviceaccount.com"
+  member     = local.service_account_members.cloudbuild_service_agent
 
   depends_on = [module.artifact_registry]
 }
@@ -23,7 +23,7 @@ resource "google_artifact_registry_repository_iam_member" "cloudrun_reader" {
   location   = var.region
   repository = var.artifact_registry_repository_id
   role       = "roles/artifactregistry.reader"
-  member     = "serviceAccount:service-${data.google_project.current.number}@serverless-robot-prod.iam.gserviceaccount.com"
+  member     = local.service_account_members.cloudrun_service_agent
 
   depends_on = [module.artifact_registry]
 }
@@ -38,4 +38,17 @@ module "cloud_build" {
   github_pat_secret_id = var.github_pat_secret_id
 
   repositories = var.github_repositories
+}
+
+# Allow Cloud Build to deploy new Cloud Run revisions.
+resource "google_project_iam_member" "cloudbuild_run_admin" {
+  project = var.project_id
+  role    = "roles/run.admin"
+  member  = local.service_account_members.cloudbuild_runner
+}
+
+resource "google_service_account_iam_member" "cloudbuild_run_sa_user" {
+  service_account_id = "projects/${var.project_id}/serviceAccounts/${local.service_accounts.compute_default}"
+  role               = "roles/iam.serviceAccountUser"
+  member             = local.service_account_members.cloudbuild_runner
 }
