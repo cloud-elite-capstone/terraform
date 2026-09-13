@@ -6,16 +6,15 @@ locals {
   # Services with no outbound calls to other services
   leaf_services = {
     for name, image in var.server_images : name => image
-    if name != "agent-service" && name != "agent-orchestrator-service"
+    if name != "agent-service"
   }
 
   service_ports = {
-    "user-service"               = 8081
-    "shop-service"               = 8082
-    "product-service"            = 8083
-    "order-service"              = 8084
-    "agent-service"              = 8085
-    "agent-orchestrator-service" = 8086
+    "user-service"    = 8081
+    "shop-service"    = 8082
+    "product-service" = 8083
+    "order-service"   = 8084
+    "agent-service"   = 8085
   }
 }
 
@@ -62,23 +61,5 @@ module "agent_service" {
         }
       }]
     },
-  ]
-}
-
-module "orchestrator_service" {
-  source = "GoogleCloudPlatform/cloud-run/google"
-
-  location   = var.region
-  project_id = var.project_id
-
-  image        = var.server_images["agent-orchestrator-service"]
-  service_name = "agent-orchestrator-service"
-
-  members = local.default_invoker
-  ports   = { name = "http1", port = local.service_ports["agent-orchestrator-service"] }
-
-  env_vars = [
-    { name = "PRODUCT_SERVICE_URL", value = module.backend_servers["product-service"].service_url },
-    { name = "AGENT_SERVICE_URL", value = module.agent_service.service_url },
   ]
 }

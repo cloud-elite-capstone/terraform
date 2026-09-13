@@ -8,7 +8,6 @@ module "react_frontend" {
   service_name = "react-frontend"
 
   env_vars = [
-    { name = "ORCHESTRATOR_SERVICE_URL", value = module.orchestrator_service.service_url },
     { name = "AGENT_SERVICE_URL", value = module.agent_service.service_url },
     { name = "PRODUCT_SERVICE_URL", value = module.backend_servers["product-service"].service_url },
     { name = "ORDER_SERVICE_URL", value = module.backend_servers["order-service"].service_url },
