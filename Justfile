@@ -83,16 +83,19 @@ enable-apis:
     @echo "APIs enabled."
 
 apply-cicd:
-    @echo "Applying CI/CD infrastructure only (Cloud Build + Artifact Registry + secret IAM + registry IAM)..."
-    just t apply -target=module.cloud_build -target=module.artifact_registry -target=google_secret_manager_secret_iam_member.github_pat_cloudbuild_reader -target=google_artifact_registry_repository_iam_member.cloudbuild_writer -target=google_artifact_registry_repository_iam_member.cloudrun_reader
+    @echo "Applying CI/CD infrastructure only (Cloud Build + Artifact Registry + secret IAM + registry IAM + Cloud Run deploy IAM)..."
+    just t apply -target=module.cloud_build -target=module.artifact_registry -target=google_secret_manager_secret_iam_member.github_pat_cloudbuild_reader -target=google_artifact_registry_repository_iam_member.cloudbuild_writer -target=google_artifact_registry_repository_iam_member.cloudrun_reader -target=google_project_iam_member.cloudbuild_run_admin -target=google_service_account_iam_member.cloudbuild_run_sa_user
 
 apply-services:
     @echo "Applying all remaining resources (network, database, Cloud Run)..."
     just t apply
 
+build-frontend:
+    @echo "Manually running Cloud Build trigger for frontend..."
+    gcloud builds triggers run push-frontend-default --region=asia-southeast1 --project=cloud-elite-capstone-retail --branch=main
+
 build:
     @echo "Manually running all Cloud Build triggers..."
-    gcloud builds triggers run push-microservices-agent-orchestrator-service --region=asia-southeast1 --project=cloud-elite-capstone-retail --branch=feat/orchestrator-service
     gcloud builds triggers run push-microservices-agent-service --region=asia-southeast1 --project=cloud-elite-capstone-retail --branch=feat/orchestrator-service
     gcloud builds triggers run push-microservices-product-service --region=asia-southeast1 --project=cloud-elite-capstone-retail --branch=feat/orchestrator-service
     gcloud builds triggers run push-microservices-order-service --region=asia-southeast1 --project=cloud-elite-capstone-retail --branch=feat/orchestrator-service
@@ -106,7 +109,7 @@ fmt *flags:
 tree *flags:
     @echo "Project directory structure:"
     @echo
-    tree -a -I '.git|.terraform|keys|node_modules' --dirsfirst {{ flags }} .
+    tree -a -I '.git|.terraform|keys|node_modules|.DS_Store' --dirsfirst {{ flags }} .
 
 tree-project *flags:
     @echo "Project directory structure for {{ project_dir }}:"
