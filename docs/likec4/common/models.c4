@@ -47,23 +47,19 @@ model {
     }
 
     agentService = spring-boot-server 'agent-service' {
-      description 'AI agent intelligence and recommendations via Spring AI + Gemini. Port 8085.'
-    }
-
-    orchestratorService = spring-boot-server 'agent-orchestrator-service' {
-      description 'Orchestrates AI conversations and product search. Port 8086.'
+      description 'AI agent intelligence, recommendations, chat, and product search via Spring AI + Gemini. Port 8085.'
     }
 
     frontendApp -> userService 'REST - auth and profiles'
     frontendApp -> shopService 'REST - store locator'
     frontendApp -> productService 'REST - catalog and search'
     frontendApp -> orderService 'REST - orders and checkout'
-    frontendApp -> agentService 'REST - recommendations'
-    frontendApp -> orchestratorService 'REST - AI chat and product search'
+    frontendApp -> agentService 'REST - AI chat, recommendations, and product search'
 
-    orchestratorService -> agentService 'REST - /agent/* chat and recommendations'
-    orchestratorService -> productService 'REST - /products/* search'
-    agentService -> productService 'REST - product search tools'
+    agentService -> productService 'MCP - product catalog tools'
+    agentService -> shopService 'MCP - shop tools'
+    agentService -> orderService 'MCP - order tools'
+    agentService -> userService 'MCP - user tools'
   }
 
   userService -> cloudSql 'Reads/writes users via JPA'
@@ -75,6 +71,6 @@ model {
   agentService -> secretManager 'Fetches GEMINI_API_KEY on startup'
 
   agentService -> geminiApi 'Calls the LLM via Spring AI Google GenAI'
-  orchestratorService -> serpApi 'Web search for product discovery'
-  orchestratorService -> geocoder 'Geocodes location queries'
+  agentService -> serpApi 'Web search for product discovery'
+  agentService -> geocoder 'Geocodes location queries'
 }

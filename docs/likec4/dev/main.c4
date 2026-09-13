@@ -32,7 +32,7 @@ model {
   }
 
   microservicesRepo = github 'microservices repo' {
-    description 'Monorepo containing the six Spring Boot services.'
+    description 'Monorepo containing the five Spring Boot services.'
   }
 
   cloudBuild = gcp-cloud-build 'Cloud Build' {
@@ -74,12 +74,6 @@ model {
         color gcpBlue
       }
     }
-    triggerOrchestratorService = github 'agent-orchestrator-service trigger' {
-      style {
-        icon gcp:cloud-build
-        color gcpBlue
-      }
-    }
   }
 
   artifactRegistry = gcp-artifact-registry 'Artifact Registry (dev-repo)' {
@@ -91,7 +85,6 @@ model {
     productServiceImage = gcp-artifact-registry 'product-service image' {}
     orderServiceImage = gcp-artifact-registry 'order-service image' {}
     agentServiceImage = gcp-artifact-registry 'agent-service image' {}
-    orchestratorServiceImage = gcp-artifact-registry 'agent-orchestrator-service image' {}
   }
 
   frontendRepo -> triggerFrontend 'Push triggers build via Cloud Build'
@@ -100,7 +93,6 @@ model {
   microservicesRepo -> triggerProductService 'Push (product-service/**) triggers build'
   microservicesRepo -> triggerOrderService 'Push (order-service/**) triggers build'
   microservicesRepo -> triggerAgentService 'Push (agent-service/**) triggers build'
-  microservicesRepo -> triggerOrchestratorService 'Push (agent-orchestrator-service/**) triggers build'
 
   triggerFrontend -> frontendImage 'Pushes image to Artifact Registry'
   triggerUserService -> userServiceImage 'Pushes image to Artifact Registry'
@@ -108,7 +100,6 @@ model {
   triggerProductService -> productServiceImage 'Pushes image to Artifact Registry'
   triggerOrderService -> orderServiceImage 'Pushes image to Artifact Registry'
   triggerAgentService -> agentServiceImage 'Pushes image to Artifact Registry'
-  triggerOrchestratorService -> orchestratorServiceImage 'Pushes image to Artifact Registry'
 
   frontendImage -> cloudRun.frontendApp 'Cloud Run deploys from Artifact Registry'
   userServiceImage -> cloudRun.userService 'Cloud Run deploys from Artifact Registry'
@@ -116,7 +107,6 @@ model {
   productServiceImage -> cloudRun.productService 'Cloud Run deploys from Artifact Registry'
   orderServiceImage -> cloudRun.orderService 'Cloud Run deploys from Artifact Registry'
   agentServiceImage -> cloudRun.agentService 'Cloud Run deploys from Artifact Registry'
-  orchestratorServiceImage -> cloudRun.orchestratorService 'Cloud Run deploys from Artifact Registry'
 }
 
 views {
@@ -140,7 +130,6 @@ views {
       triggerProductService,
       triggerOrderService,
       triggerAgentService,
-      triggerOrchestratorService,
       artifactRegistry,
       frontendImage,
       userServiceImage,
@@ -148,18 +137,16 @@ views {
       productServiceImage,
       orderServiceImage,
       agentServiceImage,
-      orchestratorServiceImage,
       cloudRun.frontendApp,
       cloudRun.userService,
       cloudRun.shopService,
       cloudRun.productService,
       cloudRun.orderService,
       cloudRun.agentService,
-      cloudRun.orchestratorService
 
     autoLayout LeftRight
 
-    style cloudRun.frontendApp, cloudRun.userService, cloudRun.shopService, cloudRun.productService, cloudRun.orderService, cloudRun.agentService, cloudRun.orchestratorService {
+    style cloudRun.frontendApp, cloudRun.userService, cloudRun.shopService, cloudRun.productService, cloudRun.orderService, cloudRun.agentService {
       opacity 40%
     }
   }
