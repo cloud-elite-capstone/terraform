@@ -1,7 +1,7 @@
 model {
-  cloudStorage = gcp-bucket 'GCP Cloud Storage' {
-    description 'Object storage bucket - Terraform state backend.'
-  }
+  // cloudStorage = gcp-bucket 'GCP Cloud Storage' {
+  //   description 'Object storage bucket - Terraform state backend.'
+  // }
 
   secretManager = gcp-secret-manager 'GCP Secret Manager' {
     description 'Stores the Gemini API key and the GitHub PAT used by CI/CD.'
